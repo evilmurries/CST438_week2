@@ -18,13 +18,14 @@ public class CityController {
 	private CityService cityService;
 	
 	@GetMapping("/cities/{city}")
-	public ResponseEntity<CityInfo> getWeather(@PathVariable("city") String cityName, Model model) {
+	public String getWeather(@PathVariable("city") String cityName, Model model) {
 
-	   CityInfo cityInfo = cityService.getCityInfo(cityName);
-	   if (cityInfo == null) {
-	      return new ResponseEntity<CityInfo>( HttpStatus.NOT_FOUND);
+	   CityInfo city = cityService.getCityInfo(cityName);
+	   if (city == null) {
+	      return "city_missing";
 	   } else {
-	      return new ResponseEntity<CityInfo>(cityInfo, HttpStatus.OK);
+	      model.addAttribute("city", city);
+	      return "city_show";
 	   }
 	} 
 }

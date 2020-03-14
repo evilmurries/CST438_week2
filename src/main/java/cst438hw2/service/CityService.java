@@ -31,9 +31,10 @@ public class CityService {
 		if (c != null) {
 		   City city = c.get(0);
 		   TempAndTime cityTemp = weatherService.getTempAndTime(city.getName());
+		   Double tempF = (cityTemp.getTemp() - 273.15) * (9.0/5.0) + 32;
 		   CityInfo newCityInfo = new CityInfo(city,
 		         city.getCountryCode(), 
-		         cityTemp.getTemp(), 
+		         tempF, 
 		         Long.toString(cityTemp.getTime()));
 		   return newCityInfo;
 		   

@@ -19,9 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import cst438hw2.domain.*;
 import cst438hw2.service.CityService;
+import cst438hw2.service.WeatherService;
 
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -31,6 +33,9 @@ public class CityRestControllerTest {
 
 	@MockBean
 	private CityService cityService;
+	
+	@MockBean
+	private WeatherService weatherService;
 
 	@Autowired
 	private MockMvc mvc;
@@ -49,8 +54,22 @@ public class CityRestControllerTest {
 
 	@Test
 	public void getCityInfo() throws Exception {
-		
-		// TODO your code goes here
-	}
+	   
+	   CityInfo attempt = new CityInfo(1, "test", "testCountry", "TestC", "testDistrict", 5, 75.00, "5");
+	   CityInfo expected = new CityInfo(1, "test", "testCountry", "TestC", "testDistrict", 5, 75.00, "5");
+	   
+	   given(cityService.getCityInfo(attempt.getName())).willReturn(expected);
+	   
+	   // when
+	   MockHttpServletResponse response = mvc.perform(
+	         post("api/cities/{city}").contentType(MediaType.APPLICATION_JSON)
+	            .content(json.write(attempt).getJson()))
+	         .andReturn().getResponse();
+	   
+	   // then
+	   assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+      assertThat(response.getContentAsString()).isEqualTo(
+            json.write(expected).getJson());
 
+	}
 }
