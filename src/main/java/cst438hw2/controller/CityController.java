@@ -1,6 +1,8 @@
 package cst438hw2.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +18,13 @@ public class CityController {
 	private CityService cityService;
 	
 	@GetMapping("/cities/{city}")
-	public String getWeather(@PathVariable("city") String cityName, Model model) {
+	public ResponseEntity<CityInfo> getWeather(@PathVariable("city") String cityName, Model model) {
 
-		// TODO Your code goes here
-		// TODO delete the following line
-		return "";
+	   CityInfo cityInfo = cityService.getCityInfo(cityName);
+	   if (cityInfo == null) {
+	      return new ResponseEntity<CityInfo>( HttpStatus.NOT_FOUND);
+	   } else {
+	      return new ResponseEntity<CityInfo>(cityInfo, HttpStatus.OK);
+	   }
 	} 
-	
 }

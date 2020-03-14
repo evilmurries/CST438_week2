@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import cst438hw2.domain.*;
 
@@ -23,10 +27,19 @@ public class CityService {
 	private WeatherService weatherService;
 	
 	public CityInfo getCityInfo(String cityName) {
-		
-		// TODO your code goes here
-		// delete the following line
-		return null; 
+		List<City> c = cityRepository.findByName(cityName);
+		if (c != null) {
+		   City city = c.get(0);
+		   TempAndTime cityTemp = weatherService.getTempAndTime(city.getName());
+		   CityInfo newCityInfo = new CityInfo(city,
+		         city.getCountryCode(), 
+		         cityTemp.getTemp(), 
+		         Long.toString(cityTemp.getTime()));
+		   return newCityInfo;
+		   
+		} else {
+		   return null;
+		}    
 	}
 	
 }

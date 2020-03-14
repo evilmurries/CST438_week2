@@ -10,4 +10,15 @@ public class TempAndTime {
 		this.time = time;
 		this.timezone = timezone;
 	}
+
+	
+   public double getTemp()
+   {
+      return this.temp;
+   }
+
+   public long getTime()
+   {
+      return this.time;
+   }
  }
