@@ -48,6 +48,7 @@ public class CityServiceTest {
 		CityInfo actual = cityService.getCityInfo("testCity");
 		
 		// Assertions
+		assertThat( actual.getName()).isEqualTo("testCity1");
 		assertThat( actual.getCountryCode()).isEqualTo("testCountry");
 		assertThat( actual.getId()).isEqualTo((long)1);
 		assertThat( actual.getDistrict()).isEqualTo("testDistrict");
@@ -59,17 +60,40 @@ public class CityServiceTest {
 	
 	@Test 
 	public void  testCityNotFound() {
-	   
-	   City testCity = new City((long)1, "testCity", "testCountry", "testDistrict", 5);
-	   
-	   ((BDDMockito) ((CityRepository) given(cityRepository)).findByName("testCity")).willReturn(testCity);
-	   given(cityService.getCityInfo("testCity")).willReturn(new CityInfo(testCity, "testCountry", 75.00, "1:15pm"));
+      City testCity = new City((long)1, "testCity1", "testCountry", "testDistrict", 5);
+      //mock repository and weather service
+      ((BDDMockito) ((CityRepository) given(cityRepository)).findByName("testCity")).willReturn(testCity);
+      given(cityService.getCityInfo("testCity")).willReturn(new CityInfo(testCity, "testCountry", 75.00, "1:15pm"));
+
+      CityInfo actual = cityService.getCityInfo("testCity2");
+      
+      // Assertions
+      assertThat( actual.getName()).isEqualTo("testCity1");
+      assertThat( actual.getCountryCode()).isEqualTo("testCountry");
+      assertThat( actual.getId()).isEqualTo((long)1);
+      assertThat( actual.getDistrict()).isEqualTo("testDistrict");
+      assertThat( actual.getPopulation()).isEqualTo(5);
+      assertThat( actual.getTemp()).isEqualTo(75.00);
+      assertThat ( actual.getTime()).isEqualTo("1:15pm");
 	}
 	
 	@Test 
 	public void  testCityMultiple() {
-		// TODO 
-		
-	}
+      City testCity = new City((long)1, "Los Angeles", "testCountry", "testDistrict", 5);
+      //mock repository and weather service
+      ((BDDMockito) ((CityRepository) given(cityRepository)).findByName("testCity")).willReturn(testCity);
+      given(cityService.getCityInfo("testCity")).willReturn(new CityInfo(testCity, "testCountry", 75.00, "1:15pm"));
 
+      CityInfo actual = cityService.getCityInfo("testCity2");
+      
+      // Assertions
+      assertThat( actual.getName()).isEqualTo("Los Angeles");
+      assertThat( actual.getCountryCode()).isEqualTo("testCountry");
+      assertThat( actual.getId()).isEqualTo((long)1);
+      assertThat( actual.getDistrict()).isEqualTo("testDistrict");
+      assertThat( actual.getPopulation()).isEqualTo(5);
+      assertThat( actual.getTemp()).isEqualTo(75.00);
+      assertThat ( actual.getTime()).isEqualTo("1:15pm");
+
+	}
 }

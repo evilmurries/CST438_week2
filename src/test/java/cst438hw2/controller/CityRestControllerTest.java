@@ -57,6 +57,7 @@ public class CityRestControllerTest {
 	   
 	   CityInfo attempt = new CityInfo(1, "test", "testCountry", "TestC", "testDistrict", 5, 75.00, "5");
 	   CityInfo expected = new CityInfo(1, "test", "testCountry", "TestC", "testDistrict", 5, 75.00, "5");
+	   CityInfo expected2 = new CityInfo(1, "test2", "testCountry", "TestC", "testDistrict", 5, 75.00, "5");
 	   
 	   given(cityService.getCityInfo(attempt.getName())).willReturn(expected);
 	   
@@ -70,6 +71,17 @@ public class CityRestControllerTest {
 	   assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
       assertThat(response.getContentAsString()).isEqualTo(
             json.write(expected).getJson());
+      
+      // When name is bad
+      MockHttpServletResponse response2 = mvc.perform(
+            post("api/cities/{city}").contentType(MediaType.APPLICATION_JSON)
+               .content(json.write(attempt).getJson()))
+            .andReturn().getResponse();
+      
+      // then
+      assertThat(response2.getStatus()).isEqualTo(HttpStatus.OK.value());
+      assertThat(response2.getContentAsString()).isEqualTo(
+            json.write(expected2).getJson());
 
 	}
 }
