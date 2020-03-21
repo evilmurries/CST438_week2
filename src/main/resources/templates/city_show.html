@@ -12,5 +12,17 @@
    Population: <span th:inline="text"> [[${city.population}]]</span><br />
    Local Weather: <span th:inline="text"> [[${city.temp}]]</span> Degrees F<br />
    Time: <span th:inline="text"> [[${city.time}]]</span><br />
+   <br />
+   For a fabulous weekend get away for 2 to [[${city.name}]] sign up here:
+   <form>
+      Email: <input type="text" /><br />
+      <input type="radio" name="quality" id="luxury">
+      <label for="luxury">Luxury $1000</label><br />
+      <input type="radio" name="quality" id="very good">
+      <label for="very good">Very Good $500</label><br />
+      <input type="radio" name="quality" id="good">
+      <label for="good">Good $350</label><br />
+      <input type="submit" value="Submit" />     
+   </form>
 </body>
 </html>
