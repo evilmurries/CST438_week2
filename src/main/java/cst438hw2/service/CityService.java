@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import cst438hw2.domain.*;
@@ -36,13 +36,13 @@ public class CityService {
 	@Autowired
 	private WeatherService weatherService;
 	
-	@Configuration
-	public class ConfigPublisher {
-	   @Bean
-	   public FanoutExchange fanout() {
-	      return new FanoutExchange("city-reservation"); 
+	  @Configuration
+	   public class ConfigPublisher {
+	      @Bean
+	      public FanoutExchange fanout() {
+	         return new FanoutExchange("city-reservation"); 
+	      }
 	   }
-	}
 	
 	public void requestReservation (
 	      String cityName,

@@ -14,14 +14,15 @@
    Time: <span th:inline="text"> [[${city.time}]]</span><br />
    <br />
    For a fabulous weekend get away for 2 to [[${city.name}]] sign up here:
-   <form>
-      Email: <input type="text" /><br />
-      <input type="radio" name="quality" id="luxury">
+   <form action="#" th:action="@{/cities/reservation}" method="post">
+      Email: <input type="text" th:name="email"/><br />
+      <input type="radio" th:name="level" id="luxury">
       <label for="luxury">Luxury $1000</label><br />
-      <input type="radio" name="quality" id="very good">
+      <input type="radio" th:name="level" id="very good">
       <label for="very good">Very Good $500</label><br />
-      <input type="radio" name="quality" id="good">
+      <input type="radio" th:name="level" id="good">
       <label for="good">Good $350</label><br />
+      <input type="text" th:name="city"><br />
       <input type="submit" value="Submit" />     
    </form>
 </body>
